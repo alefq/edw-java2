@@ -29,32 +29,40 @@ public class JabberServer {
 		ServerSocket serverSocket = new ServerSocket(PORT);
 		System.out.println("Started: " + serverSocket);
 		try {
-			// Blocks until a connection occurs:
-			Socket socketInConnection = serverSocket.accept();
-			try {
-				System.out.println("Connection accepted: " + socketInConnection);
-				Reader socketInputReader = new InputStreamReader(
-						socketInConnection.getInputStream());
-				BufferedReader inputBufferReader = new BufferedReader(
-						socketInputReader);
-				Writer socketOutputWriter = new OutputStreamWriter(
-						socketInConnection.getOutputStream());
-				Writer socketBufferedWriter = new BufferedWriter(
-						socketOutputWriter);
-				// Output is automatically flushed
-				// by PrintWriter:
-				PrintWriter serverOutputWriter = new PrintWriter(socketBufferedWriter, true);
-				while (true) {
-					String str = inputBufferReader.readLine();
-					if (str.equals("END"))
-						break;
-					System.out.println("Echoing: " + str);
-					serverOutputWriter.println(str);
+			while (true) {
+				// Blocks until a connection occurs:
+				Socket socketInConnection = serverSocket.accept();
+				try {
+					System.out.println("Connection accepted: "
+							+ socketInConnection);
+					Reader socketInputReader = new InputStreamReader(
+							socketInConnection.getInputStream());
+					BufferedReader inputBufferReader = new BufferedReader(
+							socketInputReader);
+					Writer socketOutputWriter = new OutputStreamWriter(
+							socketInConnection.getOutputStream());
+					Writer socketBufferedWriter = new BufferedWriter(
+							socketOutputWriter);
+					// Output is automatically flushed
+					// by PrintWriter:
+					PrintWriter serverOutputWriter = new PrintWriter(
+							socketBufferedWriter, true);
+					while (true) {
+						String str = inputBufferReader.readLine();
+						if (str.equals(JabberConstants.FIN_COMUNICACION))
+							break;
+						else if (str.startsWith("Cotizacion")) {
+
+						}
+						System.out.println("Echoing: " + str);
+						serverOutputWriter.println(socketInConnection
+								.getInetAddress() + " dice: " + str);
+					}
+					// Always close the two sockets...
+				} finally {
+					System.out.println("closing...");
+					socketInConnection.close();
 				}
-				// Always close the two sockets...
-			} finally {
-				System.out.println("closing...");
-				socketInConnection.close();
 			}
 		} finally {
 			serverSocket.close();

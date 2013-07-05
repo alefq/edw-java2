@@ -49,31 +49,34 @@ public class JabberClient {
 		// InetAddress addr =
 		// InetAddress.getByName("localhost");
 		System.out.println("addr = " + serverAddress);
-		Socket socket = new Socket(serverAddress, JabberServer.PORT);
+		Socket socketToServer = new Socket(serverAddress, JabberServer.PORT);
 		// Guard everything in a try-finally to make
 		// sure that the socket is closed:
 		try {
-			System.out.println("socket = " + socket);
+			System.out.println("socket = " + socketToServer);
 			Reader inputReaderFromServer = new InputStreamReader(
-					socket.getInputStream());
+					socketToServer.getInputStream());
 			BufferedReader inBufferedReaderFromServer = new BufferedReader(
 					inputReaderFromServer);
+			
 			Writer outWriterToServer = new OutputStreamWriter(
-					socket.getOutputStream());
+					socketToServer.getOutputStream());
 			Writer outBufferedWriterToServer = new BufferedWriter(
 					outWriterToServer);
+			
 			// Output is automatically flushed
 			// by PrintWriter:
-			PrintWriter outPrintWriterToServer = new PrintWriter(outBufferedWriterToServer, true);
+			PrintWriter outPrintWriterToServer = new PrintWriter(
+					outBufferedWriterToServer, true);
 			for (int i = 0; i < 10; i++) {
 				outPrintWriterToServer.println("howdy " + i);
 				String str = inBufferedReaderFromServer.readLine();
 				System.out.println(str);
 			}
-			outPrintWriterToServer.println("END");
+			outPrintWriterToServer.println(JabberConstants.FIN_COMUNICACION);
 		} finally {
 			System.out.println("closing...");
-			socket.close();
+			socketToServer.close();
 		}
 	}
 } // /:
