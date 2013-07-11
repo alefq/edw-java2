@@ -16,7 +16,7 @@ public class ThreadCompetidor extends Thread {
 
 	@Override
 	public void run() {
-		int distancia = ThreadRace.KM_CARRERA;
+		//int distancia = ThreadRace.KM_CARRERA;
 		distancia = revisarDificultades(distancia);
 		if (distancia <= 0) {
 			Date ahora = new Date();
@@ -30,7 +30,15 @@ public class ThreadCompetidor extends Thread {
 			System.out.println("Thread " + getName()
 					+ " - distancia a la meta: " + distancia--);
 			try {
-				int durmiendo = (int) (Math.random() * 10000);
+				double random = Math.random();
+				System.out.println("Random: " + random);
+				
+				long tiempoEnSegundos = (long) (random * 10);
+				
+				long tiempoEnMilisegundos = tiempoEnSegundos * 1000;
+				
+				long durmiendo = tiempoEnMilisegundos;
+				
 				System.out.println("     " + getName() + " recorriendo 1Km en "
 						+ (durmiendo / 1000) + " segundos...");
 				sleep(durmiendo);
