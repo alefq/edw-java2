@@ -1,6 +1,8 @@
 package py.edu.uca.edw.java2.clase02.thread;
 
-public class RunnableThread implements Runnable {
+import py.edu.uca.edw.java2.clase01.net.QuienSoy;
+
+public class RunnableThread extends QuienSoy implements Runnable {
 
 	private int contador = 5;
 

@@ -37,11 +37,11 @@ public class ThreadCompetidor extends Thread {
 				
 				long tiempoEnMilisegundos = tiempoEnSegundos * 1000;
 				
-				long durmiendo = tiempoEnMilisegundos;
+				long tiempoParaAvanzar1Km = tiempoEnMilisegundos;
 				
 				System.out.println("     " + getName() + " recorriendo 1Km en "
-						+ (durmiendo / 1000) + " segundos...");
-				sleep(durmiendo);
+						+ (tiempoParaAvanzar1Km / 1000) + " segundos...");
+				sleep(tiempoParaAvanzar1Km);
 			} catch (InterruptedException e) {
 				e.printStackTrace(System.err);
 			}
