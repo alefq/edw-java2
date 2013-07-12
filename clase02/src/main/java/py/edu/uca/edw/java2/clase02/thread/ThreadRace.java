@@ -31,7 +31,7 @@ public class ThreadRace {
 	public static void basicLog4jConfiguration() {
 		Properties conf = new Properties();
 		// conf.put("log4j.rootLogger", "info, myAppender");
-		conf.put("log4j.category.py", "debug, myAppender");
+		conf.put("log4j.category.py", "info, myAppender");
 		conf.put("log4j.appender.myAppender",
 				"org.apache.log4j.ConsoleAppender");
 		conf.put("log4j.appender.myAppender.layout",

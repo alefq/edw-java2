@@ -35,7 +35,7 @@ public class ThreadCompetidor extends Thread {
 					+ " - distancia a la meta: " + distancia--);
 			try {
 				double random = Math.random();
-				log.info("Random: " + random);
+				log.debug("Random: " + random);
 				
 				long tiempoEnSegundos = (long) (random * 10);
 				
