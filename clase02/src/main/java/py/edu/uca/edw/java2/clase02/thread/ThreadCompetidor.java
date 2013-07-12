@@ -2,8 +2,12 @@ package py.edu.uca.edw.java2.clase02.thread;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 public class ThreadCompetidor extends Thread {
 
+	Logger log = Logger.getLogger(ThreadCompetidor.class);
+	
 	private int distancia;
 
 	public ThreadCompetidor() {
@@ -20,18 +24,18 @@ public class ThreadCompetidor extends Thread {
 		distancia = revisarDificultades(distancia);
 		if (distancia <= 0) {
 			Date ahora = new Date();
-			System.out.println("¡Thread " + getName() + " llegó a la meta!");
-			System.out.println("¡Thread " + getName() + " llegada: " + ahora);
+			log.info("¡Thread " + getName() + " llegó a la meta!");
+			log.info("¡Thread " + getName() + " llegada: " + ahora);
 		}
 	}
 
 	private int revisarDificultades(int distancia) {
 		while (distancia > 0) {
-			System.out.println("Thread " + getName()
+			log.info("Thread " + getName()
 					+ " - distancia a la meta: " + distancia--);
 			try {
 				double random = Math.random();
-				System.out.println("Random: " + random);
+				log.info("Random: " + random);
 				
 				long tiempoEnSegundos = (long) (random * 10);
 				
@@ -39,7 +43,7 @@ public class ThreadCompetidor extends Thread {
 				
 				long tiempoParaAvanzar1Km = tiempoEnMilisegundos;
 				
-				System.out.println("     " + getName() + " recorriendo 1Km en "
+				log.info("     " + getName() + " recorriendo 1Km en "
 						+ (tiempoParaAvanzar1Km / 1000) + " segundos...");
 				sleep(tiempoParaAvanzar1Km);
 			} catch (InterruptedException e) {

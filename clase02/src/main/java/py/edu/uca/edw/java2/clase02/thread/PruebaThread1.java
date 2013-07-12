@@ -25,6 +25,8 @@ public class PruebaThread1 extends Thread {
 				sleep(UN_SEGUNDO);
 			} catch (InterruptedException e) {
 				e.printStackTrace(System.err);
+				System.out.println("Terminando el Thread: " + getName());
+				break;
 			}
 		}
 

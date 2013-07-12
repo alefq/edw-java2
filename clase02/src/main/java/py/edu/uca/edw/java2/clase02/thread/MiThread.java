@@ -11,6 +11,15 @@ public class MiThread extends Thread {
 		
 		Thread threadConRunnable = new Thread(runnableThread,  "Thread con Runnable");
 		threadConRunnable.start();
+		try {
+			Thread.sleep(5000);
+			thread.interrupt();
+//			thread.stop();
+//			thread = null;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
