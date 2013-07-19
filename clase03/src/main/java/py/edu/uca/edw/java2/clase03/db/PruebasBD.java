@@ -31,8 +31,8 @@ public class PruebasBD {
 			pruebaSelectPostgresql(conexionABD);
 //			pruebaInsert(conexionABD);
 			pruebaSelectPostgresql(conexionABD);
-			pruebaUpdate(conexionABD);
-			// pruebaDelete(conexionABD);
+//			pruebaUpdate(conexionABD);
+			pruebaDelete(conexionABD);
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontro el driver");
@@ -51,8 +51,8 @@ public class PruebasBD {
 		String sqlStr = "update bitacora_servicios set email = ?, estado = ? where id_bitacora_servicios = ?";
 		PreparedStatement statement = conPostgres.prepareStatement(sqlStr);
 		statement.setString(1, "webmaster@uc.edu.py");
-		statement.setString(2, "ERROR");
-		statement.setInt(3, 9993);
+		statement.setString(2, "OK");
+		statement.setInt(3, 3);
 		
 		System.out.println("El SQL es: " + sqlStr); // For debugging
 		int count = statement.executeUpdate();
