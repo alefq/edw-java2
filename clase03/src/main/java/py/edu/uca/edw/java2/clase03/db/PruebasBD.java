@@ -29,10 +29,10 @@ public class PruebasBD {
 			// .obtenerConexion(ConnectionUtil.DBMS_TYPE_MYSQL);
 			// pruebaSelectMysql(conexionABD);
 			pruebaSelectPostgresql(conexionABD);
-//			pruebaInsert(conexionABD);
+			// pruebaInsert(conexionABD);
 			pruebaSelectPostgresql(conexionABD);
-//			pruebaUpdate(conexionABD);
-			pruebaDelete(conexionABD);
+			// pruebaUpdate(conexionABD);
+			pruebaDeletePreparedStatement(conexionABD);
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontro el driver");
@@ -53,7 +53,7 @@ public class PruebasBD {
 		statement.setString(1, "webmaster@uc.edu.py");
 		statement.setString(2, "OK");
 		statement.setInt(3, 3);
-		
+
 		System.out.println("El SQL es: " + sqlStr); // For debugging
 		int count = statement.executeUpdate();
 		System.out.println(count + " registros modificados");
@@ -103,7 +103,7 @@ public class PruebasBD {
 		pstmt.executeUpdate();
 	}
 
-	private static void pruebaDelete(Connection conPostgres)
+	private static void pruebaDeleteStatement(Connection conPostgres)
 			throws SQLException {
 		Statement stmt = conPostgres.createStatement();
 
@@ -112,6 +112,18 @@ public class PruebasBD {
 		String sqlDelete = "delete from bitacora_servicios where id_bitacora_servicios = 4";
 		System.out.println("El SQL es: " + sqlDelete); // For debugging
 		int count = stmt.executeUpdate(sqlDelete);
+		System.out.println(count + " registros modificados");
+	}
+
+	private static void pruebaDeletePreparedStatement(Connection conPostgres)
+			throws SQLException {
+
+		String sqlDelete = "delete from bitacora_servicios where id_bitacora_servicios = ?";
+		PreparedStatement preparedStatement = conPostgres
+				.prepareStatement(sqlDelete);
+		preparedStatement.setInt(1, 5);
+		System.out.println("El SQL es: " + sqlDelete); // For debugging
+		int count = preparedStatement.executeUpdate(sqlDelete);
 		System.out.println(count + " registros modificados");
 	}
 
