@@ -25,14 +25,14 @@ public class PruebasBD {
 			// ConnectionUtil.obtenerConexion(ConnectionUtil.DBMS_TYPE_ORACLE);
 			conexionABD = ConnectionUtil
 					.obtenerConexion(ConnectionUtil.DBMS_TYPE_POSTGRES);
-			// conexionABD = ConnectionUtil
-			// .obtenerConexion(ConnectionUtil.DBMS_TYPE_MYSQL);
-			// pruebaSelectMysql(conexionABD);
+//			 conexionABD = ConnectionUtil
+//			 .obtenerConexion(ConnectionUtil.DBMS_TYPE_MYSQL);
+//			 pruebaSelectMysql(conexionABD);
 			pruebaSelectPostgresql(conexionABD);
 			// pruebaInsert(conexionABD);
-			pruebaSelectPostgresql(conexionABD);
+//			pruebaSelectPostgresql(conexionABD);
 			// pruebaUpdate(conexionABD);
-			pruebaDeletePreparedStatement(conexionABD);
+//			pruebaDeletePreparedStatement(conexionABD);
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontro el driver");
@@ -100,7 +100,12 @@ public class PruebasBD {
 		pstmt.setInt(4, 5222);
 		pstmt.setNull(5, Types.VARCHAR);
 		pstmt.setString(6, "algo@gmail.com");
-		pstmt.executeUpdate();
+		int insertados = pstmt.executeUpdate();
+		if (insertados > 0) {
+
+			System.out
+					.println("Los datos se insertaron correctamente a la base de datos.");
+		}
 	}
 
 	private static void pruebaDeleteStatement(Connection conPostgres)

@@ -16,6 +16,7 @@ import py.edu.uca.edw.java2.clase03.db.PropertiesClaveValor;
 
 public class ConnectionUtil {
 
+	private static final String HOST_NAME = "HostName";
 	final public static int DBMS_TYPE_POSTGRES = 0;
 	final public static int DBMS_TYPE_ORACLE = 1;
 	final public static int DBMS_TYPE_ODBC_ORACLENATI = 2;
@@ -65,6 +66,8 @@ public class ConnectionUtil {
 	public static Connection obtenerConexion(int DBMS_TYPE) throws SQLException {
 		String url;
 		Connection conexion = null;
+		Properties propiedadesDeConexion = null; 
+		String rutaAlProperties = null;
 		switch (DBMS_TYPE) {
 		case DBMS_TYPE_ORACLE:
 			// Properties prop = new Properties();
@@ -74,7 +77,7 @@ public class ConnectionUtil {
 			// prop.load(new
 			// FileInputStream(getClass().getClassLoader().getResource(Globals.ARCHIVO_XML_TRADUCCION).getFile());
 
-			String hostName = (String) prop.getString("HostName");
+			String hostName = (String) prop.getString(HOST_NAME);
 			String sid = (String) prop.getString("SID");
 			String port = (String) prop.getString("Port");
 			String userName = (String) prop.getString("UserName");
@@ -84,62 +87,15 @@ public class ConnectionUtil {
 			conexion = DriverManager.getConnection(url, userName, pass);
 			break;
 		case DBMS_TYPE_POSTGRES:
-			/*
-			 * Cargamos las propiedades con los valores necesarios para
-			 * conectarnos al PosgreSQL
-			 */
-			Properties prop2 = PropertiesClaveValor
-					.cargarProperties(POSTGRES_PROPERTIES_PATH);
-
-			/* El URL para la conexión jdbc */
-			String url2 = prop2.getProperty("Url");
-			/*
-			 * El puerto (sólo necesario si se utilizará un puerto distinto del
-			 * estándar para el motor, en el caso del PostgreSQL el puerto
-			 * estándar es el 5432)
-			 */
-			String port2 = prop2.getProperty("Driver");
-			/* El usuario para conectarse a la base de datos */
-			String userName2 = prop2.getProperty("UserName");
-			/* La contraseña para la conexión a la BD */
-			String pass2 = prop2.getProperty("Password");
-
-			/*
-			 * DriverManager es una clase de JAVA que establece la conexión a la
-			 * BD según los parámetros que le pasamos
-			 */
-			conexion = DriverManager.getConnection(url2, userName2, pass2);
+			conexion = obtenerConexion(POSTGRES_PROPERTIES_PATH);
 			break;
 		case DBMS_TYPE_ODBC_ORACLENATI:
 			url = "jdbc:odbc:OracleNati";
 			conexion = DriverManager.getConnection(url, "soaa", "faute");
 			break;
 		case DBMS_TYPE_MYSQL:
-			/*
-			 * Cargamos las propiedades con los valores necesarios para
-			 * conectarnos al PosgreSQL
-			 */
-			Properties prop3 = PropertiesClaveValor
-					.cargarProperties(MYSQL_PROPERTIES_PATH);
+			conexion = obtenerConexion(MYSQL_PROPERTIES_PATH);
 
-			/* El URL para la conexión jdbc */
-			String url3 = prop3.getProperty("Url");
-			/*
-			 * El puerto (sólo necesario si se utilizará un puerto distinto del
-			 * estándar para el motor, en el caso del PostgreSQL el puerto
-			 * estándar es el 5432)
-			 */
-			String port3 = prop3.getProperty("Driver");
-			/* El usuario para conectarse a la base de datos */
-			String userName3= prop3.getProperty("UserName");
-			/* La contraseña para la conexión a la BD */
-			String pass3 = prop3.getProperty("Password");
-
-			/*
-			 * DriverManager es una clase de JAVA que establece la conexión a la
-			 * BD según los parámetros que le pasamos
-			 */
-			conexion = DriverManager.getConnection(url3, userName3, pass3);
 			break;
 		case DBMS_TYPE_ODBC_EXCEL:
 			url = "jdbc:odbc:PruebaExcel";
@@ -150,6 +106,38 @@ public class ConnectionUtil {
 			conexion = DriverManager.getConnection(url);
 			break;
 		}
+		return conexion;
+	}
+
+	public static Connection obtenerConexion(String rutaAlProperties)
+			throws SQLException {
+		Connection conexion;
+		Properties propiedadesDeConexion;
+		/*
+		 * Cargamos las propiedades con los valores necesarios para
+		 * conectarnos al PosgreSQL
+		 */
+		propiedadesDeConexion = PropertiesClaveValor
+				.cargarProperties(rutaAlProperties);
+
+		/* El URL para la conexión jdbc */
+		String url2 = propiedadesDeConexion.getProperty("Url");
+		/*
+		 * El puerto (sólo necesario si se utilizará un puerto distinto del
+		 * estándar para el motor, en el caso del PostgreSQL el puerto
+		 * estándar es el 5432)
+		 */
+		String port2 = propiedadesDeConexion.getProperty("Driver");
+		/* El usuario para conectarse a la base de datos */
+		String userName2 = propiedadesDeConexion.getProperty("UserName");
+		/* La contraseña para la conexión a la BD */
+		String pass2 = propiedadesDeConexion.getProperty("Password");
+
+		/*
+		 * DriverManager es una clase de JAVA que establece la conexión a la
+		 * BD según los parámetros que le pasamos
+		 */
+		conexion = DriverManager.getConnection(url2, userName2, pass2);
 		return conexion;
 	}
 
