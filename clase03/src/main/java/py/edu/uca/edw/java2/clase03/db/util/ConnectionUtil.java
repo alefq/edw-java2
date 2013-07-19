@@ -21,11 +21,14 @@ public class ConnectionUtil {
 	final public static int DBMS_TYPE_ODBC_ORACLENATI = 2;
 	final public static int DBMS_TYPE_ODBC_EXCEL = 3;
 	final public static int DBMS_TYPE_ODBC_TXT = 4;
+	final public static int DBMS_TYPE_MYSQL = 5;
+
 	/*
 	 * La ruta hasta el archivo .properties que contiene los datos para
 	 * conectarnos a la Base de Datos
 	 */
-	private static final String POSTGRES_PROPERTIES_PATH = "/opt/desarrollo/sources/edw-java2/clase03/postgres.properties";
+	private static final String POSTGRES_PROPERTIES_PATH = "postgres.properties";
+	private static final String MYSQL_PROPERTIES_PATH = "mysql.properties";
 
 	public static void main(String[] args) {
 		try {
@@ -110,6 +113,33 @@ public class ConnectionUtil {
 		case DBMS_TYPE_ODBC_ORACLENATI:
 			url = "jdbc:odbc:OracleNati";
 			conexion = DriverManager.getConnection(url, "soaa", "faute");
+			break;
+		case DBMS_TYPE_MYSQL:
+			/*
+			 * Cargamos las propiedades con los valores necesarios para
+			 * conectarnos al PosgreSQL
+			 */
+			Properties prop3 = PropertiesClaveValor
+					.cargarProperties(MYSQL_PROPERTIES_PATH);
+
+			/* El URL para la conexión jdbc */
+			String url3 = prop3.getProperty("Url");
+			/*
+			 * El puerto (sólo necesario si se utilizará un puerto distinto del
+			 * estándar para el motor, en el caso del PostgreSQL el puerto
+			 * estándar es el 5432)
+			 */
+			String port3 = prop3.getProperty("Driver");
+			/* El usuario para conectarse a la base de datos */
+			String userName3= prop3.getProperty("UserName");
+			/* La contraseña para la conexión a la BD */
+			String pass3 = prop3.getProperty("Password");
+
+			/*
+			 * DriverManager es una clase de JAVA que establece la conexión a la
+			 * BD según los parámetros que le pasamos
+			 */
+			conexion = DriverManager.getConnection(url3, userName3, pass3);
 			break;
 		case DBMS_TYPE_ODBC_EXCEL:
 			url = "jdbc:odbc:PruebaExcel";

@@ -17,15 +17,17 @@ public class PruebasBD {
 	}
 
 	public static void main(String[] args) {
-		Connection conPostgres = null;
+		Connection conexionABD = null;
 		try {
 
 			Drivers.cargarDrivers();
 			// Connection conOracle =
 			// ConnectionUtil.obtenerConexion(ConnectionUtil.DBMS_TYPE_ORACLE);
-			conPostgres = ConnectionUtil
-					.obtenerConexion(ConnectionUtil.DBMS_TYPE_POSTGRES);
-			pruebaSelect(conPostgres);
+//			conPostgres = ConnectionUtil
+//					.obtenerConexion(ConnectionUtil.DBMS_TYPE_POSTGRES);
+			conexionABD = ConnectionUtil
+					.obtenerConexion(ConnectionUtil.DBMS_TYPE_MYSQL);
+			pruebaSelectMysql(conexionABD);
 //			pruebaInsert(conPostgres);
 //			pruebaSelect(conPostgres);
 //			pruebaUpdate(conPostgres);
@@ -52,7 +54,7 @@ public class PruebasBD {
 		System.out.println(count + " registros modificados");
 	}
 
-	private static void pruebaSelect(Connection conPostgres)
+	private static void pruebaSelectPostgresql(Connection conPostgres)
 			throws SQLException {
 		Statement sentencia = conPostgres.createStatement();
 		ResultSet rs = sentencia
@@ -64,6 +66,20 @@ public class PruebasBD {
 
 			System.out.println("puerto " + rs.getInt("puerto"));
 			System.out.println("estado " + rs.getString("estado"));
+			System.out.println("--- --- ---");
+		}
+	}
+	
+
+	private static void pruebaSelectMysql(Connection conPostgres)
+			throws SQLException {
+		Statement sentencia = conPostgres.createStatement();
+		ResultSet rs = sentencia
+				.executeQuery("select * from usuario");
+
+		while (rs.next()) {
+			System.out.println("Nombre " + rs.getString("nombre"));
+			System.out.println("Apellido " + rs.getString("apellidos"));
 			System.out.println("--- --- ---");
 		}
 	}
