@@ -23,15 +23,16 @@ public class PruebasBD {
 			Drivers.cargarDrivers();
 			// Connection conOracle =
 			// ConnectionUtil.obtenerConexion(ConnectionUtil.DBMS_TYPE_ORACLE);
-//			conPostgres = ConnectionUtil
-//					.obtenerConexion(ConnectionUtil.DBMS_TYPE_POSTGRES);
 			conexionABD = ConnectionUtil
-					.obtenerConexion(ConnectionUtil.DBMS_TYPE_MYSQL);
-			pruebaSelectMysql(conexionABD);
-//			pruebaInsert(conPostgres);
-//			pruebaSelect(conPostgres);
-//			pruebaUpdate(conPostgres);
-//			pruebaDelete(conPostgres);
+					.obtenerConexion(ConnectionUtil.DBMS_TYPE_POSTGRES);
+			// conexionABD = ConnectionUtil
+			// .obtenerConexion(ConnectionUtil.DBMS_TYPE_MYSQL);
+			// pruebaSelectMysql(conexionABD);
+			pruebaSelectPostgresql(conexionABD);
+//			pruebaInsert(conexionABD);
+			pruebaSelectPostgresql(conexionABD);
+			pruebaUpdate(conexionABD);
+			// pruebaDelete(conexionABD);
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontro el driver");
@@ -44,13 +45,17 @@ public class PruebasBD {
 
 	private static void pruebaUpdate(Connection conPostgres)
 			throws SQLException {
-		Statement stmt = conPostgres.createStatement();
 
 		// Step 3 & 4: execute a SQL UPDATE statement via executeUpdate()
 		// which returns an int indicating the number of row affected.
-		String sqlStr = "update bitacora_servicios set email = 'webmaster@uc.edu.py', estado = 'CAIDO' where id_bitacora_servicios = 2";
+		String sqlStr = "update bitacora_servicios set email = ?, estado = ? where id_bitacora_servicios = ?";
+		PreparedStatement statement = conPostgres.prepareStatement(sqlStr);
+		statement.setString(1, "webmaster@uc.edu.py");
+		statement.setString(2, "ERROR");
+		statement.setInt(3, 9993);
+		
 		System.out.println("El SQL es: " + sqlStr); // For debugging
-		int count = stmt.executeUpdate(sqlStr);
+		int count = statement.executeUpdate();
 		System.out.println(count + " registros modificados");
 	}
 
@@ -69,13 +74,11 @@ public class PruebasBD {
 			System.out.println("--- --- ---");
 		}
 	}
-	
 
 	private static void pruebaSelectMysql(Connection conPostgres)
 			throws SQLException {
 		Statement sentencia = conPostgres.createStatement();
-		ResultSet rs = sentencia
-				.executeQuery("select * from usuario");
+		ResultSet rs = sentencia.executeQuery("select * from usuario");
 
 		while (rs.next()) {
 			System.out.println("Nombre " + rs.getString("nombre"));
@@ -90,8 +93,9 @@ public class PruebasBD {
 				+ "(id_bitacora_servicios, alias, direccion_ip, puerto, estado, email) "
 				+ "values(?,?,?,?,?,?)";
 		PreparedStatement pstmt = conPostgres.prepareStatement(sqlInsert);
-		pstmt.setInt(1, 4);
-		pstmt.setString(2, "chat");
+		pstmt.setInt(1, 6);
+		String alias = "";
+		pstmt.setString(2, alias);
 		pstmt.setString(3, "10.1.1.3");
 		pstmt.setInt(4, 5222);
 		pstmt.setNull(5, Types.VARCHAR);
