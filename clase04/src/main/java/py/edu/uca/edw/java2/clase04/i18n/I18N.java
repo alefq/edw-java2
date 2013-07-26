@@ -36,15 +36,17 @@ public class I18N extends JFrame implements Serializable {
 //			System.exit(1);
 //		}
 
-		if (args.length > 0) {
-			language = new String(args[0]);
-			country = new String(args[1]);
-		} else {
-			language = "en";
-			country = "US";
-		}
+//		if (args.length > 0) {
+//			language = new String(args[0]);
+//			country = new String(args[1]);
+//		} else {
+//			language = "gu";
+//			country = "PY";
+//		}
+		
+		Locale locale = Locale.getDefault();
 
-		I18N frame = new I18N(language, country);
+		I18N frame = new I18N(locale.getLanguage(), locale.getCountry());
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
