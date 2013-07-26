@@ -27,13 +27,13 @@
 		<priority value="INFO" />
 	</category>
 	
-	<category name="py.com.sodep" >
-		<priority value="TRACE" />
+	<category name="py.edu.uca" >
+		<priority value="DEBUG" />
 	</category>
 	
 	<root>
-		<priority value="INFO" />
-		<appender-ref ref="console" />
+		<priority value="ERROR" />
+		<appender-ref ref="file" />
 	
 	</root>
 </log4j:configuration>

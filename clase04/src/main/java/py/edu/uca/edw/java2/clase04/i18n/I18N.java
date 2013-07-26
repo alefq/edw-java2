@@ -10,8 +10,13 @@ import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
+
 public class I18N extends JFrame implements Serializable {
 
+	Logger log = Logger.getLogger(I18N.class);
+	
 	/**
 	 * 
 	 */
@@ -25,6 +30,8 @@ public class I18N extends JFrame implements Serializable {
 	JButton yesButton, noButton;
 
 	static public void main(String[] args) {
+		DOMConfigurator.configure("log4j.xml");
+
 		String language;
 		String country;
 //
@@ -45,6 +52,8 @@ public class I18N extends JFrame implements Serializable {
 //		}
 		
 		Locale locale = Locale.getDefault();
+		
+		
 
 		I18N frame = new I18N(locale.getLanguage(), locale.getCountry());
 
@@ -64,6 +73,7 @@ public class I18N extends JFrame implements Serializable {
 	}// I18N construct
 
 	public void initialize() {
+		log.debug("Inicializando...");
 		Locale locale = new Locale(getLanguage(), getCountry());
 		ResourceBundle captions = ResourceBundle.getBundle("Messages", locale);
 		setYesCaption(captions.getString("yesMessage"));
@@ -74,12 +84,14 @@ public class I18N extends JFrame implements Serializable {
 
 		getContentPane().add(yesButton, BorderLayout.WEST);
 		getContentPane().add(noButton, BorderLayout.EAST);
+		log.debug("Fin de inicializacion");
 	}
 
 	public I18N(String language2, String country2) {
 		setLanguage(language2);
 		setCountry(country2);
 		initialize();
+		log.info("La aplicación utilizará el lenguaje: " + language2 +  " pais: " + country2);
 	}
 
 	public String getYesCaption() {
@@ -112,6 +124,10 @@ public class I18N extends JFrame implements Serializable {
 
 	public void setCountry(String country) {
 		this.country = country;
+		if("US".equals(country))
+		{
+			log.error("Ojo con la NSA");
+		}
 	}
 
 }// I18N

@@ -16,7 +16,7 @@ public class QuoteServer {
 }
 
 class QuoteServerThread extends Thread {
-	private static final String FILE_COTIZACIONES = "one-liners.txt";
+	private static final String FILE_COTIZACIONES = Messages.getString("QuoteServer.filename"); //$NON-NLS-1$
 
 	/* Se define un inner class que será el servidor corriendo en un thread */
 	private DatagramSocket socket = null;
@@ -26,7 +26,7 @@ class QuoteServerThread extends Thread {
 	private boolean moreQuotes = true;
 
 	public QuoteServerThread() throws IOException {
-		super("QuoteServerThread");
+		super(Messages.getString("QuoteServer.threadname")); //$NON-NLS-1$
 		socket = new DatagramSocket(4445);
 		try {
 			/*
@@ -41,7 +41,7 @@ class QuoteServerThread extends Thread {
 			 * actual
 			 */
 			System.err
-					.println("Could not open quote file. Serving time instead.");
+					.println(Messages.getString("QuoteServer.errormessage_filenotfound")); //$NON-NLS-1$
 		}
 	}
 
@@ -88,10 +88,10 @@ class QuoteServerThread extends Thread {
 			if ((returnValue = inStream.readLine()) == null) {
 				inStream.close();
 				moreQuotes = false;
-				returnValue = "No more quotes. Goodbye.";
+				returnValue = Messages.getString("QuoteServer.msg_goodbye"); //$NON-NLS-1$
 			}
 		} catch (IOException e) {
-			returnValue = "IOException occurred in server.";
+			returnValue = Messages.getString("QuoteServer.errro_in_server"); //$NON-NLS-1$
 		}
 		return returnValue;
 	}
