@@ -1,12 +1,12 @@
 package py.edu.uca.edw.java2.chat.client;
 
-class clientRunner 
+class ClientRunner 
 {
-//I sinartisi pou kaleite gia na ani3ei o client
+//I sinartisi pou kaleite gia na ani3ei o Client
 //dimiourgite antikeimeno kai trexi apo alli klasi logo provlimatwn me static prosvaseis klp
 	public static void main(String args[])
 	{
-		client c = new client();
+		Client c = new Client();
 		c.run();
 	}    
 }

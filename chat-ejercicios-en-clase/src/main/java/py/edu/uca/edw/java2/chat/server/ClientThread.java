@@ -7,12 +7,15 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.StringTokenizer;
 
-//i vasiki klasi tou server gia epikoinonia me to client
-//perimeni minimata apo to client kai antidra analoga
-//exei prosvasi stous xristes tou server meso tou antikeinenou Vector clients tou server
+import py.edu.uca.edw.java2.chat.business.AuditoriaBC;
+import py.edu.uca.edw.java2.chat.exception.BusinessException;
+
+//i vasiki klasi tou Server gia epikoinonia me to Client
+//perimeni minimata apo to Client kai antidra analoga
+//exei prosvasi stous xristes tou Server meso tou antikeinenou Vector clients tou Server
 //tha mporouse na ine edo mesa to clients 
 //alla etsi ekatse prota opote to afisa
-public class cThread extends Thread
+public class ClientThread extends Thread
 {
 	
 	String nick;      //aftonoita
@@ -21,10 +24,11 @@ public class cThread extends Thread
 	PrintWriter out; //I/O
 	BufferedReader in;
 	Socket clientSocket;
+	AuditoriaBC auditoriaBC;
 
-	cThread(Socket s)
+	ClientThread(Socket s)
 	{
-		super("cThread");
+		super("ClientThread");
 		//Molis gini i sindesi den imaste sindedemenoi ...
 		connected = false;
 		//... kai den exoume nick
@@ -45,25 +49,25 @@ public class cThread extends Thread
 		}
 	}
 	
-	//dio antikeimena cThread ine ta idia an e3ipiretoun to idio nick
+	//dio antikeimena ClientThread ine ta idia an e3ipiretoun to idio nick
 	//edo stis sigrisis mallon tha mporouse na isxii kai to == alla den to 
 	//epsa3a
-	public boolean equals(cThread c)
+	public boolean equals(ClientThread c)
 	{
 		return (c.nick.equals(this.nick));
 	}
 	
-	//apostoli minimatos sto client
+	//apostoli minimatos sto Client
 	//apla grafo sto socket
 	synchronized void send(String msg)
 	{
 			out.println(msg);	
 	}
 	
-	//vasiki methodos leitourgias cThread
-	//Perimeni kapio input apo to client
+	//vasiki methodos leitourgias ClientThread
+	//Perimeni kapio input apo to Client
 	//An ine kapia gnosti entoli antidra analoga
-	//an den stelni apla to minima piso sto client
+	//an den stelni apla to minima piso sto Client
 	
 	void listen()
 	{
@@ -84,16 +88,16 @@ public class cThread extends Thread
 	        	else if (msg.equals("Logout"))
 	        	{
 	        		//an imaste sindedemenoi
-	        		//afairoume ton eafto mas apo to server.clients
+	        		//afairoume ton eafto mas apo to Server.clients
 	        		//stelno neo list me tous ipoloipous gia na idopoiiso emmesa oti efiga
-	        		//stelno ena minima sto client gia na 3eri oti egine epitixis sindesi
+	        		//stelno ena minima sto Client gia na 3eri oti egine epitixis sindesi
 	        		//kleino ta streams kai return gia na termatisi to thread
 	        		
 	        		if (connected)
 	        		{	
 	        			connected = false;
-	        			int k = server.clients.indexOf(this);
-	        			server.clients.remove(this);
+	        			int k = Server.clients.indexOf(this);
+	        			Server.clients.remove(this);
 						sendList();
 	        			out.println("OK");
 	        			out.close();
@@ -114,10 +118,10 @@ public class cThread extends Thread
 	        	{
 	        		//perno ti lista me ta cThreads kai kalo sto kathena tin entoli send me parametro
 	        		//Receive nick: msg
-	        		//perno to isto stixoio to server.clients kai elegxo an ine sindedemeno
-	        		for (int i = 0; i < server.clients.size() ; i ++)
+	        		//perno to isto stixoio to Server.clients kai elegxo an ine sindedemeno
+	        		for (int i = 0; i < Server.clients.size() ; i ++)
 	        		{
-	        			cThread t = (cThread)server.clients.get(i);
+	        			ClientThread t = (ClientThread)Server.clients.get(i);
 	        			if (t.connected) //isos den xreiazete tora
 	        							 //prin ixe diaforetiki ilopoiisi
 	        			{
@@ -138,7 +142,7 @@ public class cThread extends Thread
 	        		String to = st.nextToken();
 	        		
 	        		//metavliti gia na doume an iparxei to nick
-	        		//me sosto client den xreiazete o elegxos 
+	        		//me sosto Client den xreiazete o elegxos 
 	        		//alla iparxi se periptosi pou iparxi kapio lathos
 	        		//i to list den ftasi
 					boolean success = false;
@@ -146,9 +150,9 @@ public class cThread extends Thread
 	        		//perno to iosto stoixeio kai to elegxo an ine iso me to nick pou theloyme.
 	        		//an ine tote kaloume ti sinartisi tou send me parametro PrivateRecieve nick: msg
 	        		//kai success = true kai break giati den exi noima na sinexisoume
-	        		for (int i = 0; i < server.clients.size() ; i ++)
+	        		for (int i = 0; i < Server.clients.size() ; i ++)
 	        		{
-	        			cThread t = (cThread)server.clients.get(i);
+	        			ClientThread t = (ClientThread)Server.clients.get(i);
 	        			if (t.nick.equals(to))
 	        			{
 	        				t.send("PrivateRecieve "+ nick+": " + message);
@@ -173,7 +177,7 @@ public class cThread extends Thread
 		}
 		catch (SocketException e)
 		{
-			//otan exo provlima me to socket (o client figi xoris na stili logout, exit tou programmatos client
+			//otan exo provlima me to socket (o Client figi xoris na stili logout, exit tou programmatos Client
 			//gia opiodipote logo
 			//idies leitourgies me to Logout
 			//pou e3igithike pio pano
@@ -182,8 +186,8 @@ public class cThread extends Thread
 	        			try 
 	        			{        			
 	        				connected = false;
-	        				int k = server.clients.indexOf(this);
-	        				server.clients.remove(this);
+	        				int k = Server.clients.indexOf(this);
+	        				Server.clients.remove(this);
 							sendList();
 	       		 			out.close();
 	       		 			in.close();
@@ -220,16 +224,22 @@ public class cThread extends Thread
 	    //elexo an iparxi o xristis
 		boolean exists = false;
 		System.out.println("Login" + msg.substring(5, msg.length()));
+		try {
+			auditoriaBC.auditarLogin("Login" + msg.substring(5, msg.length()));
+		} catch (BusinessException e) {
+			/*Ocurrió un error al intentar auditar el login*/
+			e.printStackTrace();
+		}
 	    //perno to iosto stoixeio
-	    //kai to sigrino me to to nick pou perno apo to client
-	    for (int i = 0;i<server.clients.size();i++)
+	    //kai to sigrino me to to nick pou perno apo to Client
+	    for (int i = 0;i<Server.clients.size();i++)
 	    {
-	    	if (server.clients.get(i) != null)
+	    	if (Server.clients.get(i) != null)
 	        {
 	        	//an iparxei
 	        	//exists = true break
 				System.out.println(msg.substring(7, msg.length()));
-				cThread temp = (cThread)server.clients.get(i);
+				ClientThread temp = (ClientThread)Server.clients.get(i);
 	        	if ((temp.nick).equals(msg.substring(7, msg.length())))
 	        	{
 					exists = true;
@@ -260,18 +270,18 @@ public class cThread extends Thread
 	{
 		//list ine to string pou tha stalei se olous 
 		String list = "";
-		System.out.println(server.clients.size());
-		if (server.clients.size() == 0)
+		System.out.println(Server.clients.size());
+		if (Server.clients.size() == 0)
 		{
 			return;
 		}
 		
 		//perno to vector me tous clients kai osoi ine sindedemenoi
 		//tous prostheto sto list
-	    for (int i = 0;i<server.clients.size();i++)
+	    for (int i = 0;i<Server.clients.size();i++)
 	    {
-	    	cThread temp = (cThread)server.clients.get(i); 
-	    	if (server.clients.get(i) != null)
+	    	ClientThread temp = (ClientThread)Server.clients.get(i); 
+	    	if (Server.clients.get(i) != null)
 	        {
 	        		if (connected)
 	        		{
@@ -283,10 +293,10 @@ public class cThread extends Thread
 		list = "List " +list.substring(0,list.length() -1) +";";
 	    //Send List to all 
 	    
-	    //3anaperno to vector kai kalo ti sinartisi gia kathe cThread me parametro to nick (List: ...)
-	    for (int i = 0; i < server.clients.size() ; i ++)
+	    //3anaperno to vector kai kalo ti sinartisi gia kathe ClientThread me parametro to nick (List: ...)
+	    for (int i = 0; i < Server.clients.size() ; i ++)
 	    {
-	    	cThread t = (cThread)server.clients.get(i);
+	    	ClientThread t = (ClientThread)Server.clients.get(i);
 	    	if (t.connected)
 	    	{
 	    		t.send(list);

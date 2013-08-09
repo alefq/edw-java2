@@ -5,12 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
-//Vasiki klasi gia to server.
-//perimeni sindesis kai dimiourga ena cThread gia to kathena 
+//Vasiki klasi gia to Server.
+//perimeni sindesis kai dimiourga ena ClientThread gia to kathena 
 //pou xeirizete tin epikoinonia mazi tou
 //kai perimeno allo connection
 
-class server {
+class Server {
 	// Vector gia apothikefsi twn thread twn xristwn
 	static Vector clients;
 	// To socket gia ti epikoinonia
@@ -22,33 +22,33 @@ class server {
 
 		clientSocket = null;
 
-		// server socket
+		// Server socket
 		ServerSocket serverSocket = null;
 
 		try {
-			// arxikopoiisi tou server socket sto port 9999
+			// arxikopoiisi tou Server socket sto port 9999
 			serverSocket = new ServerSocket(9999);
 		} catch (IOException e) {
 			System.out.println("IO " + e);
 		}
 
 		// perimeno gia sindeseiis kai se kathe sindesi
-		// dimiourgo ena neo antikeimeno cThread pou tin xeirizete
+		// dimiourgo ena neo antikeimeno ClientThread pou tin xeirizete
 		// to energopoio
 		// kai to prostheto sto vector me tous xristes
 		while (true) {
 			try {
 				// perimeno sindesi
 				clientSocket = serverSocket.accept();
-				// arxikopoiisi tou cThread
+				// arxikopoiisi tou ClientThread
 				// Constructor me sockets
-				cThread s = new cThread(clientSocket);
+				ClientThread clientThread = new ClientThread(clientSocket);
 				// prostheto sto vector
 				// INE apli sindesi oxi xristis
 				// se afto to simio
 				// ginete xristis otan kani valid login
-				clients.add(s);
-				s.start();
+				clients.add(clientThread);
+				clientThread.start();
 			} catch (IOException e) {
 				System.out.println("IOaccept " + e);
 

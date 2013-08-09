@@ -4,49 +4,49 @@ import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
-//klasi pou xeirizete tin epikoinonia me to server
+//klasi pou xeirizete tin epikoinonia me to Server
 //antidra se gnostes entoles
-public class readFromServer extends Thread
+public class ReadFromServer extends Thread
 {
-	//pios client mas dimiourgei gia na mporoume na kaloume oles tis methodous
+	//pios Client mas dimiourgei gia na mporoume na kaloume oles tis methodous
 	//ligo mperdemeno alla doulevi
-	client c;
+	Client c;
 	
 	//constructor
-	readFromServer(client cc)
+	ReadFromServer(Client cc)
 	{
 		c = cc;
 	}
 	
 	public void run()
 	{
-		String s; //metavliti pou krata oti diavasi apo to server
-		//perimenoume na stali kati apo to server
+		String s; //metavliti pou krata oti diavasi apo to Server
+		//perimenoume na stali kati apo to Server
 		while (true)
 		{
 			//an exoume gini logout
-			//to client.logout = true;
+			//to Client.logout = true;
 			//gia na 3eroun ta threads na termatisoun ti leitourgia tous
 			//me to gui ginete System.exit() opote termatizoun ola ara den xreiazete
-			if (client.logout)
+			if (Client.logout)
 			{
 				return;
 			}
 			
 			//diavazo apo to socket
-			s = client.read();
+			s = Client.read();
 			//An ine list
 			if (s.startsWith("List"))
 			{
 				//otan lavoume to List simeni exoume dosi valid nick kai imaste nomima sindedemenoi
 				//gui allages
-				client.mainText.setText("Connected as " + client.nick);
+				Client.mainText.setText("Connected as " + Client.nick);
 				c.setTitle("Simple Java Chat - " + c.nick + " - Connected to " + c.server);
 				//connected = true;
-				client.connected = true;
+				Client.connected = true;
 				//katharizo ti lista me tous clients
 				//kai tin 3anadimiourgo
-				client.list.clear();
+				Client.list.clear();
 				String nextNick = "";
 				
 				//tokenize
@@ -62,43 +62,43 @@ public class readFromServer extends Thread
 					//giafto ena nick den mpori na periexi ; :)
 					//iparxei allos tropos na figo to telefteo xaraktira tou telefteou.
 					//alla varieme
-					client.list.addElement(replace(temp,";",""));
+					Client.list.addElement(replace(temp,";",""));
 				}
 				
 				//ektiposi tis listas
 				System.out.print("List updated: New names: ");
-				for (int i = 0; i < client.list.size();i++)
+				for (int i = 0; i < Client.list.size();i++)
 				{
-					System.out.print(client.list.get(i) + " ");
+					System.out.print(Client.list.get(i) + " ");
 				}
 				System.out.println();
 			}
 			//an ine recieve to vazo sto mainText sto Gui (xoris to "Recieve")
 			else if (s.startsWith("Recieve"))
 			{
-				client.mainText.setText(client.mainText.getText() + "\n" + s.substring(8,s.length()));
+				Client.mainText.setText(Client.mainText.getText() + "\n" + s.substring(8,s.length()));
 				//kolpaki gia autoscroll kato
-				client.mainText.setCaretPosition(client.mainText.getText().length());
+				Client.mainText.setCaretPosition(Client.mainText.getText().length());
 			}
 			//Private minima
 			//To idio me pano apla kollo ena "Prosopiko minima" apo pano
 			else if (s.startsWith("PrivateRecieve"))
 			{
-				client.mainText.setText(client.mainText.getText() + "\n" + "Prosopiko minima: " + s.substring(14,s.length()));
-				client.mainText.setCaretPosition(client.mainText.getText().length());
+				Client.mainText.setText(Client.mainText.getText() + "\n" + "Prosopiko minima: " + s.substring(14,s.length()));
+				Client.mainText.setCaretPosition(Client.mainText.getText().length());
 			}
 			//otan to nick pou dosame ine kratimeno
 			else if (s.startsWith("NewNick"))
 			
 			{   //gui
 				//Perno ena kainourgio nick kai 3anadokimazo
-				client.mainText.setText("");
+				Client.mainText.setText("");
 				String newnick =  JOptionPane.showInputDialog(null, "To nickname den ine diathesimo. Dose neo nick:");
-				client.connected = false;
+				Client.connected = false;
 				//prosparmozo ta ipomenou tou actions
 				//oste na ine disabled osa prepi
-				client.jMenuItem1.setEnabled(true);
-       	 		client.jMenuItem2.setEnabled(false);
+				Client.jMenuItem1.setEnabled(true);
+       	 		Client.jMenuItem2.setEnabled(false);
 				
 				//an patiso cancel sto parathiro pou zita neo nick
 				//to newnick ine null
@@ -109,10 +109,10 @@ public class readFromServer extends Thread
 					//enimerono tin metavliti nick
 					//kai 3anaprospatho
 					//prosarmozo ta ipomenou tou actions analoga
-					client.nick = newnick;
-					client.jMenuItem1.setEnabled(false);
-       	 			client.jMenuItem2.setEnabled(true);
-       	 			client.send("Login: "+newnick);
+					Client.nick = newnick;
+					Client.jMenuItem1.setEnabled(false);
+       	 			Client.jMenuItem2.setEnabled(true);
+       	 			Client.send("Login: "+newnick);
 				}
 			}
 			System.out.println(s);

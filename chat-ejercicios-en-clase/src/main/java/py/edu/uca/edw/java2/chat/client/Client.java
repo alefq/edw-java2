@@ -14,20 +14,20 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-//Vasiki klasi client me GUI
+//Vasiki klasi Client me GUI
 //O sxediasmos tou GUI egine me to programa NetBEANS
 
 
-class client extends JFrame
+class Client extends JFrame
 {
 	static boolean connected; //an imaste sindedemenoi i oxi
 	static boolean logout; 
 	static Socket cSocket; //To socket gia tin epikoinonia
 	static PrintWriter out; //
 	static BufferedReader in;// ta streams gia tin epikoinonia meso tou socket
-	static userInput uinput; //Thread pou analamvani tin epikoinonia tou  xristi me to Client se konsola
+	static UserInput uinput; //Thread pou analamvani tin epikoinonia tou  xristi me to Client se konsola
 							 //Den xreiazete amesa me ti leitourgia tou gui
-	static readFromServer sinput; //Thread pou analamvani epikoinonia me to server
+	static ReadFromServer sinput; //Thread pou analamvani epikoinonia me to Server
 	static DefaultListModel list; //i lista me ta nicknames gia to gui
 
  	
@@ -37,7 +37,7 @@ class client extends JFrame
 		
 		setTitle("Simple Java Chat - Disconnected");
 		enter = false; //asimanti metavliti gia tin voithia leitourgias tou gui
-		connected = false; //molis ani3i to client DEn imaste sindedemenoi
+		connected = false; //molis ani3i to Client DEn imaste sindedemenoi
 		
 		//Gui Stuff
 		//Ta pio polla dimiourgithikan aftomata apo 
@@ -190,7 +190,7 @@ class client extends JFrame
 	}
 	
 	//Sinartisi pou analamvani to prosopiko minima
-	//Anigi ena inputbox kai zita to minima kai to prootha sto server me to analogo prothema
+	//Anigi ena inputbox kai zita to minima kai to prootha sto Server me to analogo prothema
 	//simfona me to protokolo
 
 	private void nickListMouseClicked(java.awt.event.MouseEvent evt)
@@ -238,9 +238,9 @@ class client extends JFrame
     private void jMenuItem1ActionPerformed2(java.awt.event.ActionEvent evt) 
     {
     	//handler gia to click sto disconnect
-    	//stelno sto server logout kai System.exit(0); gia na stamatisoun ola (3) ta threads tou client
+    	//stelno sto Server logout kai System.exit(0); gia na stamatisoun ola (3) ta threads tou Client
     	send("Logout");
-		client.logout = true;
+		Client.logout = true;
 		System.exit(0);
     }
     
@@ -255,35 +255,35 @@ class client extends JFrame
     }
     
     static String server;
-	//Sidnesi me to server ekteleite otan ginei click sto Actions - Connect
+	//Sidnesi me to Server ekteleite otan ginei click sto Actions - Connect
 	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) 
     {
     	
     	setTitle("Connecting ...");
     	logout = false;
 		
-		//to thread pou analamvani epikoinonia me to server
+		//to thread pou analamvani epikoinonia me to Server
 		//pernoume san parametro ton eafto mas gia na mpori na allazi metavlites kai na kali methodous
-		//tou client xoris provlimata
+		//tou Client xoris provlimata
 		//Sigekrimena xriastike gia proti fora (kai teleftea) sto gui otan kalousa tin setTitle
-		//san client.setTitle apo to readFromServer antikeimeno kai ixa provlimata epidi den mporouse na klithi apo static 
-		sinput = new readFromServer(this);
+		//san Client.setTitle apo to ReadFromServer antikeimeno kai ixa provlimata epidi den mporouse na klithi apo static 
+		sinput = new ReadFromServer(this);
 		
 		//Isos den xreiazete me to GUI 
 		//Perni input apo tin konsola
-		uinput = new userInput();
+		uinput = new UserInput();
 		
 		//Arxikopoiiseis
 		cSocket = null;
 		out = null;
 		in = null;
-		//Gia na 3ero an ixa provlimata i oxi epikoinonias me to server
+		//Gia na 3ero an ixa provlimata i oxi epikoinonias me to Server
 		boolean error;
 		error = false;
 		
-		//input gia na dosei o xristis to server, me default timi to localhost
+		//input gia na dosei o xristis to Server, me default timi to localhost
 		
-		server = JOptionPane.showInputDialog("Parakalo dose server: ", "localhost");
+		server = JOptionPane.showInputDialog("Parakalo dose Server: ", "localhost");
 		try 
 		{
 			//Sindesi
@@ -291,16 +291,16 @@ class client extends JFrame
 			//Sindesi tou I/O me ta streams tou socket
 			out = new PrintWriter(cSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(cSocket.getInputStream()));
-			//enar3i threads gia I/O me to server
+			//enar3i threads gia I/O me to Server
 			uinput.start();
 			sinput.start();
 		}
 		catch(UnknownHostException e)
 		{
-			//Se periptosi Error epikoinonias me to server (UnknownHost)
-			JOptionPane.showMessageDialog( this, "Den ine efikti i epikoinonia me to server","ERROR", JOptionPane.ERROR_MESSAGE );
+			//Se periptosi Error epikoinonias me to Server (UnknownHost)
+			JOptionPane.showMessageDialog( this, "Den ine efikti i epikoinonia me to Server","ERROR", JOptionPane.ERROR_MESSAGE );
 			System.out.println("Host Error" + e);
-			setTitle("Simple Java Chat - Cannot Connect Please Try another server");
+			setTitle("Simple Java Chat - Cannot Connect Please Try another Server");
 			error = true;
 		}
 		catch (IOException e)
@@ -315,7 +315,7 @@ class client extends JFrame
        	 	
        	 	
        	 	//to nick den mpori na exi ";"
-       	 	//e3igisi sti readFromServer.java sta sxolia
+       	 	//e3igisi sti ReadFromServer.java sta sxolia
        	 	//Sto List
        	 	while(nick.contains(";"))
        	 	{
@@ -324,9 +324,9 @@ class client extends JFrame
        	 	
        	 	
        	 	//stelno to Login: 
-       	 	//kai i periptosi pou iparxi idi to nick kaliptete sto readFromServer antikeimeno
-       	 	//O client theorite connected otan lavi List: minima
-       	 	//episis sto readFromServer antikeimeno
+       	 	//kai i periptosi pou iparxi idi to nick kaliptete sto ReadFromServer antikeimeno
+       	 	//O Client theorite connected otan lavi List: minima
+       	 	//episis sto ReadFromServer antikeimeno
        	 	send("Login: "+nick);
        	 	
        	 	//Gui allages sta menu
@@ -350,8 +350,8 @@ class client extends JFrame
 	{
 		out.println(msg);
 	}
-	//methodos gia anagnosi apo to server
-	//kaleite apo to readFromServer antikeimeno
+	//methodos gia anagnosi apo to Server
+	//kaleite apo to ReadFromServer antikeimeno
 	//isos kapos anorthodo3a
 	static String read()
 	{
@@ -359,7 +359,7 @@ class client extends JFrame
 		String s = null;
 		try 
 		{
-			//Perimenei na stilei kati o server
+			//Perimenei na stilei kati o Server
 			//kai to anatheti stin s
 			s = in.readLine();
 		}
@@ -389,7 +389,7 @@ class client extends JFrame
     	result.append(str.substring(s));
     	return result.toString();
     }
-    //Sinartisi pou kaleite na stilei to periexomenou tou input JTextArea sto server
+    //Sinartisi pou kaleite na stilei to periexomenou tou input JTextArea sto Server
     //kaleite otan iparxei kati sto input (den ine keno)
   
     void sendInput()
@@ -407,7 +407,7 @@ class client extends JFrame
     	}
     	else
     	{
-    		  //fevgo ta new line (\n) apo to input giati dimiourgoun provlima kai varieme na alla3o to server :)
+    		  //fevgo ta new line (\n) apo to input giati dimiourgoun provlima kai varieme na alla3o to Server :)
     		  //kai stelno to minima
     		  send("Post " + replace(inputText.getText(),"\n"," "));
     	      inputText.setText("");
