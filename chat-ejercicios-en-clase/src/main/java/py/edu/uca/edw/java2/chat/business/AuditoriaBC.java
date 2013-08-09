@@ -6,7 +6,7 @@ import py.edu.uca.edw.java2.chat.persistence.AuditoriaDAO;
 
 public class AuditoriaBC {
 	
-	AuditoriaDAO auditoriaDAO;
+	AuditoriaDAO auditoriaDAO = new AuditoriaDAO();
 
 	public void auditarLogin(String string) throws BusinessException {
 		// TODO Auto-generated method stub
@@ -15,7 +15,7 @@ public class AuditoriaBC {
 			auditoriaDAO.guardarLogin(string);
 		} catch (PersistenceException e) {
 			/*capturo y tiro una exception de negocios*/
-			throw new BusinessException();
+			throw new BusinessException(e.getMessage());
 		}
 	}
 

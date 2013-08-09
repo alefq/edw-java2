@@ -24,7 +24,7 @@ public class ClientThread extends Thread
 	PrintWriter out; //I/O
 	BufferedReader in;
 	Socket clientSocket;
-	AuditoriaBC auditoriaBC;
+	AuditoriaBC auditoriaBC = new AuditoriaBC();
 
 	ClientThread(Socket s)
 	{
@@ -121,11 +121,12 @@ public class ClientThread extends Thread
 	        		//perno to isto stixoio to Server.clients kai elegxo an ine sindedemeno
 	        		for (int i = 0; i < Server.clients.size() ; i ++)
 	        		{
-	        			ClientThread t = (ClientThread)Server.clients.get(i);
-	        			if (t.connected) //isos den xreiazete tora
+	        			ClientThread threadCliente = (ClientThread)Server.clients.get(i);
+	        			if (threadCliente.connected) //isos den xreiazete tora
 	        							 //prin ixe diaforetiki ilopoiisi
 	        			{
-	        				t.send("Recieve "+ nick+": " +msg.substring(5, msg.length()));
+	        				threadCliente.send("Recieve "+ nick+": " +msg.substring(5, msg.length()));
+	        				threadCliente.clientSocket.getInetAddress();
 	        			}
 	        		}
 	        	}
