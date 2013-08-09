@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>py.edu.uca.edw.java2</groupId>
-  <artifactId>chat</artifactId>
+  <artifactId>chat-ejercicios-en-clase</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>chat</name>
+  <name>chat-ejercicios-en-clase</name>
   <url>http://maven.apache.org</url>
 
   <properties>
