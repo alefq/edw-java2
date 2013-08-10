@@ -5,18 +5,30 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
+
+import py.edu.uca.edw.java2.chat.i18n.Messages;
+
 //Vasiki klasi gia to Server.
 //perimeni sindesis kai dimiourga ena ClientThread gia to kathena 
 //pou xeirizete tin epikoinonia mazi tou
 //kai perimeno allo connection
 
 class Server {
+	static Logger log = Logger.getLogger(Server.class);
+
 	// Vector gia apothikefsi twn thread twn xristwn
 	static Vector clients;
 	// To socket gia ti epikoinonia
 	static Socket clientSocket;
 
 	public static void main(String args[]) {
+		/* Inicializamos el log4j */
+		DOMConfigurator.configure(Messages.getString("Server.path.log4j.conf")); //$NON-NLS-1$
+
+		int puerto = 9999;
+		
 		// arxikopoiiseis
 		clients = new Vector();
 
@@ -27,9 +39,10 @@ class Server {
 
 		try {
 			// arxikopoiisi tou Server socket sto port 9999
-			serverSocket = new ServerSocket(9999);
+			serverSocket = new ServerSocket(puerto);
+			log.info(Messages.getString("Server.1") + puerto); //$NON-NLS-1$
 		} catch (IOException e) {
-			System.out.println("IO " + e);
+			log.error("IO " + e); //$NON-NLS-1$
 		}
 
 		// perimeno gia sindeseiis kai se kathe sindesi
@@ -50,7 +63,7 @@ class Server {
 				clients.add(clientThread);
 				clientThread.start();
 			} catch (IOException e) {
-				System.out.println("IOaccept " + e);
+				log.error("IOaccept " + e); //$NON-NLS-1$
 
 			}
 		}

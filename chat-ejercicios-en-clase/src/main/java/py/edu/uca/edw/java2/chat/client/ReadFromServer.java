@@ -4,10 +4,15 @@ import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 //klasi pou xeirizete tin epikoinonia me to Server
 //antidra se gnostes entoles
 public class ReadFromServer extends Thread
 {
+	
+	Logger log = Logger.getLogger(ReadFromServer.class);
+
 	//pios Client mas dimiourgei gia na mporoume na kaloume oles tis methodous
 	//ligo mperdemeno alla doulevi
 	Client c;
@@ -66,12 +71,12 @@ public class ReadFromServer extends Thread
 				}
 				
 				//ektiposi tis listas
-				System.out.print("List updated: New names: ");
+				log.info("List updated: New names: ");
 				for (int i = 0; i < Client.list.size();i++)
 				{
-					System.out.print(Client.list.get(i) + " ");
+					log.info(Client.list.get(i) + " ");
 				}
-				System.out.println();
+				log.info("");
 			}
 			//an ine recieve to vazo sto mainText sto Gui (xoris to "Recieve")
 			else if (s.startsWith("Recieve"))
@@ -115,7 +120,7 @@ public class ReadFromServer extends Thread
        	 			Client.send("Login: "+newnick);
 				}
 			}
-			System.out.println(s);
+			log.info(s);
 		}
 	}
 	//Methodos copy paste apo to google
