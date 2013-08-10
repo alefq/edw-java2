@@ -23,7 +23,7 @@ public class UserInput extends Thread
 			try
 			{
 				String command = kin.readLine();
-				if (command.equals("Logout"))
+				if (command.equals(Messages.getString("UserInput.0"))) //$NON-NLS-1$
 				{
 					Client.send(command);
 					

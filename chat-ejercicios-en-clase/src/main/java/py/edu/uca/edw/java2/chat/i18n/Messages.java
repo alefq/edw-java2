@@ -8,6 +8,9 @@ public class Messages {
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle("Messages", Locale.getDefault());
+	
+//	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
+//			.getBundle("Messages", new Locale("es", "PY"));
 
 	private Messages() {
 	}
