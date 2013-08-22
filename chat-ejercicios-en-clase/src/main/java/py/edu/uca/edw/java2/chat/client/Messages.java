@@ -1,16 +1,13 @@
-package py.edu.uca.edw.java2.chat.i18n;
+package py.edu.uca.edw.java2.chat.client;
 
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Messages {
+	private static final String BUNDLE_NAME = "py.edu.uca.edw.java2.chat.client.messages"; //$NON-NLS-1$
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle("Messages", Locale.getDefault());
-	
-//	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-//			.getBundle("Messages", new Locale("pt", "PT"));
+			.getBundle(BUNDLE_NAME);
 
 	private Messages() {
 	}

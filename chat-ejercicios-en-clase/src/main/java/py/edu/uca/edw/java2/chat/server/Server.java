@@ -25,7 +25,7 @@ class Server {
 
 	public static void main(String args[]) {
 		/* Inicializamos el log4j */
-		DOMConfigurator.configure(Messages.getString("Server.path.log4j.conf")); //$NON-NLS-1$
+		DOMConfigurator.configure("log4j.xml");
 
 		int puerto = 9999;
 		
