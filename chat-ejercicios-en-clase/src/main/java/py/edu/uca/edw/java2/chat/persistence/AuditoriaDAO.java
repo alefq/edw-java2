@@ -1,9 +1,11 @@
 package py.edu.uca.edw.java2.chat.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 
 import org.apache.log4j.Logger;
 
@@ -17,10 +19,18 @@ public class AuditoriaDAO {
 
 	Logger log = Logger.getLogger(AuditoriaDAO.class);
 
-	public void guardarLogin(String string) throws PersistenceException {
-		// TODO Auto-generated method stub
-		log.debug("Se audita: " + string);
+	public AuditoriaDAO() {
 		inicializarConexion();
+	}
+
+	public void guardarLogin(String nickname) throws PersistenceException {
+		// TODO Auto-generated method stub
+		log.debug("Se audita: " + nickname);
+		try {
+			persistirLogin(conexionABD, nickname);
+		} catch (SQLException e) {
+			throw new PersistenceException(e);
+		}
 	}
 
 	public void inicializarConexion() {
@@ -28,7 +38,7 @@ public class AuditoriaDAO {
 			Drivers.cargarDrivers();
 			conexionABD = ConnectionUtil
 					.obtenerConexion(ConnectionUtil.DBMS_TYPE_POSTGRES);
-			pruebaSelectPostgresql(conexionABD);
+			// pruebaSelectPostgresql(conexionABD);
 		} catch (ClassNotFoundException e) {
 			log.error("No se encontro el driver", e);
 		} catch (SQLException e) {
@@ -52,4 +62,18 @@ public class AuditoriaDAO {
 		}
 	}
 
+	public void persistirLogin(Connection conPostgres, String nickname)
+			throws SQLException {
+		String sqlInsert = "INSERT INTO conexion_audit(" + "nickname, tipo)"
+				+ "VALUES (?, ?);";
+		PreparedStatement pstmt = conPostgres.prepareStatement(sqlInsert);
+		pstmt.setString(1, nickname);
+		pstmt.setString(2, "LOGIN");
+		int insertados = pstmt.executeUpdate();
+		if (insertados > 0) {
+
+			System.out
+					.println("Los datos se insertaron correctamente a la base de datos.");
+		}
+	}
 }
