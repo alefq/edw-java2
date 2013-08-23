@@ -40,10 +40,10 @@ public class AuditoriaDAO {
 			throws SQLException {
 		Statement sentencia = conPostgres.createStatement();
 		ResultSet rs = sentencia
-				.executeQuery("SELECT chat_audit_id, nickname, tipo, fecha FROM conexion_audit");
+				.executeQuery("SELECT conexion_audit_id, nickname, tipo, fecha FROM conexion_audit");
 
 		while (rs.next()) {
-			log.info("ID " + rs.getInt("chat_audit_id"));
+			log.info("ID " + rs.getInt("conexion_audit_id"));
 			log.info("Nickname" + rs.getString("nickname"));
 
 			log.info("Tipo Conexion" + rs.getString("tipo"));
