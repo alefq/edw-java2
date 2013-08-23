@@ -3,6 +3,8 @@ package py.edu.uca.edw.java2.chat.client;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import py.edu.uca.edw.java2.chat.i18n.Messages;
+
 //Sinartisi pou xeirizete to I/O apo ti konsola me to xristi. den xreiazete me to gui
 public class UserInput extends Thread
 {

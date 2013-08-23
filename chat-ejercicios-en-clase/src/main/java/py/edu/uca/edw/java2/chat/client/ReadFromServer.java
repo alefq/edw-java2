@@ -6,8 +6,6 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
-import py.edu.uca.edw.java2.chat.i18n.Messages;
-
 //klasi pou xeirizete tin epikoinonia me to Server
 //antidra se gnostes entoles
 public class ReadFromServer extends Thread
@@ -43,23 +41,23 @@ public class ReadFromServer extends Thread
 			//diavazo apo to socket
 			s = Client.read();
 			//An ine list
-			if (s.startsWith(Messages.getString("ReadFromServer.0"))) //$NON-NLS-1$
+			if (s.startsWith("List"))
 			{
 				//otan lavoume to List simeni exoume dosi valid nick kai imaste nomima sindedemenoi
 				//gui allages
-				Client.mainText.setText(Messages.getString("ReadFromServer.1") + Client.nick); //$NON-NLS-1$
-				c.setTitle(Messages.getString("ReadFromServer.2") + c.nick + Messages.getString("ReadFromServer.3") + c.server); //$NON-NLS-1$ //$NON-NLS-2$
+				Client.mainText.setText("Connected as " + Client.nick);
+				c.setTitle("Simple Java Chat - " + c.nick + " - Connected to " + c.server);
 				//connected = true;
 				Client.connected = true;
 				//katharizo ti lista me tous clients
 				//kai tin 3anadimiourgo
 				Client.list.clear();
-				String nextNick = Messages.getString("ReadFromServer.4"); //$NON-NLS-1$
+				String nextNick = "";
 				
 				//tokenize
 				//perno san parametro otidipote meta to List 
 				//kai xrisimopoio san delimiter to ", " simfona me to protokollo
-				StringTokenizer st = new StringTokenizer(s.substring(5,s.length()),Messages.getString("ReadFromServer.5")); //$NON-NLS-1$
+				StringTokenizer st = new StringTokenizer(s.substring(5,s.length()),", ");
 				
 				String temp = null;
 				while(st.hasMoreTokens())
@@ -69,38 +67,38 @@ public class ReadFromServer extends Thread
 					//giafto ena nick den mpori na periexi ; :)
 					//iparxei allos tropos na figo to telefteo xaraktira tou telefteou.
 					//alla varieme
-					Client.list.addElement(replace(temp,Messages.getString("ReadFromServer.6"),Messages.getString("ReadFromServer.7"))); //$NON-NLS-1$ //$NON-NLS-2$
+					Client.list.addElement(replace(temp,";",""));
 				}
 				
 				//ektiposi tis listas
-				log.info(Messages.getString("ReadFromServer.8")); //$NON-NLS-1$
+				log.info("List updated: New names: ");
 				for (int i = 0; i < Client.list.size();i++)
 				{
-					log.info(Client.list.get(i) + Messages.getString("ReadFromServer.9")); //$NON-NLS-1$
+					log.info(Client.list.get(i) + " ");
 				}
-				log.info(Messages.getString("ReadFromServer.10")); //$NON-NLS-1$
+				log.info("");
 			}
 			//an ine recieve to vazo sto mainText sto Gui (xoris to "Recieve")
-			else if (s.startsWith(Messages.getString("ReadFromServer.11"))) //$NON-NLS-1$
+			else if (s.startsWith("Recieve"))
 			{
-				Client.mainText.setText(Client.mainText.getText() + Messages.getString("ReadFromServer.12") + s.substring(8,s.length())); //$NON-NLS-1$
+				Client.mainText.setText(Client.mainText.getText() + "\n" + s.substring(8,s.length()));
 				//kolpaki gia autoscroll kato
 				Client.mainText.setCaretPosition(Client.mainText.getText().length());
 			}
 			//Private minima
 			//To idio me pano apla kollo ena "Prosopiko minima" apo pano
-			else if (s.startsWith(Messages.getString("ReadFromServer.13"))) //$NON-NLS-1$
+			else if (s.startsWith("PrivateRecieve"))
 			{
-				Client.mainText.setText(Client.mainText.getText() + Messages.getString("ReadFromServer.14") + Messages.getString("ReadFromServer.15") + s.substring(14,s.length())); //$NON-NLS-1$ //$NON-NLS-2$
+				Client.mainText.setText(Client.mainText.getText() + "\n" + "Prosopiko minima: " + s.substring(14,s.length()));
 				Client.mainText.setCaretPosition(Client.mainText.getText().length());
 			}
 			//otan to nick pou dosame ine kratimeno
-			else if (s.startsWith(Messages.getString("ReadFromServer.16"))) //$NON-NLS-1$
+			else if (s.startsWith("NewNick"))
 			
 			{   //gui
 				//Perno ena kainourgio nick kai 3anadokimazo
-				Client.mainText.setText(Messages.getString("ReadFromServer.17")); //$NON-NLS-1$
-				String newnick =  JOptionPane.showInputDialog(null, Messages.getString("ReadFromServer.18")); //$NON-NLS-1$
+				Client.mainText.setText("");
+				String newnick =  JOptionPane.showInputDialog(null, "To nickname den ine diathesimo. Dose neo nick:");
 				Client.connected = false;
 				//prosparmozo ta ipomenou tou actions
 				//oste na ine disabled osa prepi
@@ -119,7 +117,7 @@ public class ReadFromServer extends Thread
 					Client.nick = newnick;
 					Client.jMenuItem1.setEnabled(false);
        	 			Client.jMenuItem2.setEnabled(true);
-       	 			Client.send(Messages.getString("ReadFromServer.19")+newnick); //$NON-NLS-1$
+       	 			Client.send("Login: "+newnick);
 				}
 			}
 			log.info(s);

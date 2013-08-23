@@ -374,7 +374,7 @@ class Client extends JFrame {
 			// ReadFromServer antikeimeno
 			// O Client theorite connected otan lavi List: minima
 			// episis sto ReadFromServer antikeimeno
-			send(Messages.getString("Client.mensajes.26") + nick); //$NON-NLS-1$
+			send("Login: " + nick); //$NON-NLS-1$
 
 			// Gui allages sta menu
 			if (nick != null) {
