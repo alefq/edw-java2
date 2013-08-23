@@ -43,12 +43,12 @@ public class AuditoriaDAO {
 				.executeQuery("SELECT chat_audit_id, nickname, tipo, fecha FROM conexion_audit");
 
 		while (rs.next()) {
-			System.out.println("Alias " + rs.getInt("chat_audit_id"));
-			System.out.println("Dirección " + rs.getString("nickname"));
+			log.info("ID " + rs.getInt("chat_audit_id"));
+			log.info("Nickname" + rs.getString("nickname"));
 
-			System.out.println("puerto " + rs.getString("tipo"));
-			System.out.println("estado " + rs.getDate("fecha"));
-			System.out.println("--- --- ---");
+			log.info("Tipo Conexion" + rs.getString("tipo"));
+			log.info("Fecha " + rs.getDate("fecha"));
+			log.info("--- --- ---");
 		}
 	}
 

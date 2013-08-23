@@ -22,7 +22,7 @@ public class Drivers {
 		 * hacerlo compatible con los JDK < 6
 		 */
 		Class.forName("org.postgresql.Driver");
-		Class.forName("com.mysql.jdbc.Driver");
+//		Class.forName("com.mysql.jdbc.Driver");
 
 	}
 
